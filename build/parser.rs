@@ -17,6 +17,9 @@ use quote::{format_ident, quote};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
+#[cfg(feature = "poem-openapi")]
+use poem_openapi::{Object, Enum, Union};
+
 #[derive(Debug, PartialEq, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct MavProfile {
@@ -184,6 +187,10 @@ impl MavProfile {
             #[cfg(feature = "serde")]
             use serde::{Serialize, Deserialize};
 
+            #[cfg(feature = "poem-openapi")]
+            #[allow(unused_imports)]
+            use poem_openapi::{Object, Enum, Union};
+
             #(#enums)*
 
             #(#msgs)*
@@ -211,6 +218,8 @@ impl MavProfile {
         quote! {
             #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
             #[cfg_attr(feature = "serde", serde(tag = "type"))]
+            #[cfg_attr(feature = "poem-openapi", derive(Union))]
+            #[cfg_attr(feature = "poem-openapi", oai(discriminator_name = "_type"))]
             pub enum MavMessage {
                 #(#enums(#structs),)*
             }
@@ -435,6 +444,7 @@ impl MavEnum {
             enum_def = quote! {
                 bitflags!{
                     #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+                    #[cfg_attr(feature = "poem-openapi", derive(Object))]
                     #description
                     pub struct #enum_name: #width {
                         #(#defs)*
@@ -445,6 +455,7 @@ impl MavEnum {
             enum_def = quote! {
                 #[derive(Debug, Copy, Clone, PartialEq, FromPrimitive, ToPrimitive)]
                 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+                #[cfg_attr(feature = "poem-openapi", derive(Enum))]
                 #[cfg_attr(feature = "serde", serde(tag = "type"))]
                 #description
                 pub enum #enum_name {
@@ -471,6 +482,7 @@ impl MavEnum {
 
 #[derive(Debug, PartialEq, Eq, Clone, Default)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "poem-openapi", derive(Object))]
 pub struct MavEnumEntry {
     pub value: Option<u32>,
     pub name: String,
@@ -638,6 +650,7 @@ impl MavMessage {
             #description
             #[derive(Debug, Clone, PartialEq)]
             #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+            #[cfg_attr(feature = "poem-openapi", derive(Object))]
             pub struct #msg_name {
                 #(#name_types)*
             }
@@ -1011,6 +1024,7 @@ impl MavType {
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "poem-openapi", derive(Enum))]
 #[cfg_attr(feature = "serde", serde(tag = "type"))]
 pub enum MavXmlElement {
     Version,
