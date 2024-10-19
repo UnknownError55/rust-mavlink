@@ -2,7 +2,14 @@
 [package]
 name = "mavlink"
 version = "0.11.2"
-authors = ["Todd Stellanova", "Michal Podhradsky", "Kevin Mehall", "Tim Ryan", "Patrick José Pereira", "Ibiyemi Abiodun"]
+authors = [
+  "Todd Stellanova",
+  "Michal Podhradsky",
+  "Kevin Mehall",
+  "Tim Ryan",
+  "Patrick José Pereira",
+  "Ibiyemi Abiodun",
+]
 build = "build/main.rs"
 description = "Implements the MAVLink data interchange format for UAVs."
 readme = "README.md"
@@ -18,7 +25,7 @@ quote = "1"
 proc-macro2 = "1.0.43"
 lazy_static = "1.2.0"
 serde = { version = "1.0.115", optional = true, features = ["derive"] }
-poem-openapi = { version = "2", optional = true }
+poem-openapi = { version = "5.1", optional = true }
 
 [[bin]]
 name = "mavlink-dump"
@@ -35,24 +42,24 @@ byteorder = { version = "1.3.4", default-features = false }
 embedded-hal = { version = "0.2", optional = true }
 nb = { version = "1.0", optional = true }
 serde_arrays = { version = "0.1.0", optional = true }
-poem-openapi = { version = "2", optional = true }
+poem-openapi = { version = "5.1", optional = true }
 
 [features]
 "all" = [
-    "ardupilotmega",
-    "asluav",
-    "common",
-    "development",
-    "icarous",
-    "minimal",
-    "python_array_test",
-    "standard",
-    "test",
-    "ualberta",
-    "uavionix",
-    "avssuas",
-    "cubepilot",
-    "poem-openapi",
+  "ardupilotmega",
+  "asluav",
+  "common",
+  "development",
+  "icarous",
+  "minimal",
+  "python_array_test",
+  "standard",
+  "test",
+  "ualberta",
+  "uavionix",
+  "avssuas",
+  "cubepilot",
+  "poem-openapi",
 ]
 "ardupilotmega" = ["common", "icarous", "uavionix"]
 "asluav" = ["common"]
@@ -72,22 +79,22 @@ poem-openapi = { version = "2", optional = true }
 "cubepilot" = ["common"]
 
 "all-dialects" = [
-    "ardupilotmega",
-    "asluav",
-    "avssuas",
-    "development",
-    "matrixpilot",
-    "minimal",
-    "paparazzi",
-    "python_array_test",
-    "slugs",
-    "standard",
-    "test",
-    "ualberta",
-    "uavionix",
-    "icarous",
-    "common",
-    "cubepilot",
+  "ardupilotmega",
+  "asluav",
+  "avssuas",
+  "development",
+  "matrixpilot",
+  "minimal",
+  "paparazzi",
+  "python_array_test",
+  "slugs",
+  "standard",
+  "test",
+  "ualberta",
+  "uavionix",
+  "icarous",
+  "common",
+  "cubepilot",
 ]
 
 "format-generated-code" = []
@@ -99,10 +106,25 @@ poem-openapi = { version = "2", optional = true }
 "direct-serial" = []
 "embedded" = ["embedded-hal", "nb"]
 "serde" = ["dep:serde", "dep:serde_arrays"]
-default = ["std", "tcp", "udp", "direct-serial", "serial", "serde", "ardupilotmega"]
+default = [
+  "std",
+  "tcp",
+  "udp",
+  "direct-serial",
+  "serial",
+  "serde",
+  "ardupilotmega",
+]
 poem-openapi = ["dep:poem-openapi"]
 
 # build with all features on docs.rs so that users viewing documentation
 # can see everything
 [package.metadata.docs.rs]
-features = ["default", "all-dialects", "emit-description", "emit-extensions", "format-generated-code", "poem-openapi"]
+features = [
+  "default",
+  "all-dialects",
+  "emit-description",
+  "emit-extensions",
+  "format-generated-code",
+  "poem-openapi",
+]
